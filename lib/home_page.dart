@@ -27,7 +27,7 @@ class _PaginaHogarState extends State<PaginaHogar> {
       children: <Widget>[
         Text("WELCOME ${email}!"),
         RaisedButton(
-          onPressed: () => { cerrarSesion() },
+          onPressed: cerrarSesion,
           child: Text("Cerrar sesión"),
         )
       ],
