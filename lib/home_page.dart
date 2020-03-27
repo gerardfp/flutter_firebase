@@ -1,24 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_firebase/start_page.dart';
 
 import 'util.dart';
 
-class HomePage extends StatefulWidget {
+import 'start_page.dart';
+
+
+class PaginaHogar extends StatefulWidget {
   @override
-  createState() => _HomePageState();
+  createState() => _PaginaHogarState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _PaginaHogarState extends State<PaginaHogar> {
   var email = "anoymous";
 
   @override
   initState() {
     super.initState();
 
-    getUserEmail();
+    obtenerEmailLogueado();
   }
 
   @override
@@ -27,25 +27,25 @@ class _HomePageState extends State<HomePage> {
       children: <Widget>[
         Text("WELCOME ${email}!"),
         RaisedButton(
-          onPressed: () => { signOut() },
-          child: Text("Sign out"),
+          onPressed: () => { cerrarSesion() },
+          child: Text("Cerrar sesión"),
         )
       ],
     ),
   );
 
-  getUserEmail() async {
-    var user = await FirebaseAuth.instance.currentUser();
+  obtenerEmailLogueado() async {
+    var usuario = await FirebaseAuth.instance.currentUser();
 
-    if(user != null){
+    if(usuario != null){
       setState(() {
-        this.email = user.email;
+        this.email = usuario.email;
       });
     }
   }
 
-  signOut() async {
+  cerrarSesion() async {
     await FirebaseAuth.instance.signOut();
-    navigateToPage(context, StartPage());
+    navegarHacia(context, PaginaInicio());
   }
 }

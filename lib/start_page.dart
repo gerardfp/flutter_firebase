@@ -1,21 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/home_page.dart';
-import 'package:flutter_firebase/login_page.dart';
-import 'package:flutter_firebase/util.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'util.dart';
+
+import 'home_page.dart';
+import 'login_page.dart';
 
 
-class StartPage extends StatefulWidget {
+class PaginaInicio extends StatefulWidget {
   @override
-  createState() => _StartPageState();
+  createState() => _PaginaInicioState();
 }
 
-class _StartPageState extends State<StartPage> {
+class _PaginaInicioState extends State<PaginaInicio> {
 
   @override
   void initState() {
     super.initState();
-    checkLogin();
+    comprobarLogin();
   }
 
   @override
@@ -25,13 +27,13 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  checkLogin() async {
-    var user = await FirebaseAuth.instance.currentUser();
+  comprobarLogin() async {
+    var usuario = await FirebaseAuth.instance.currentUser();
 
-    if(user != null){
-      navigateToPage(context, HomePage());
+    if(usuario != null){
+      navegarHacia(context, PaginaHogar());
     } else {
-      navigateToPage(context, LoginPage());
+      navegarHacia(context, PaginaAcceso());
     }
   }
 }

@@ -1,88 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_firebase/register_page.dart';
 
-import 'home_page.dart';
 import 'util.dart';
 
+import 'register_page.dart';
+import 'home_page.dart';
 
-class LoginPage extends StatefulWidget {
+
+class PaginaAcceso extends StatefulWidget {
   @override
-  createState() => _LoginPageState();
+  createState() => _PaginaAccesoState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  var errorMessage = "";
-  var logueando = false;
+class _PaginaAccesoState extends State<PaginaAcceso> {
+  final keyFormulario = GlobalKey<FormState>();
+  final controladorEmail = TextEditingController();
+  final controladorPasswd = TextEditingController();
+  var mensajeError = "";
+  var accediendo = false;
 
   @override
   build(context) {
     return Scaffold(
       body: Form(
-        key: _formKey,
+        key: keyFormulario,
         child: ListView(
           children: [
-            Text("LOGIN"),
+            Text("ACCESO"),
             TextFormField(
-              controller: _emailController,
+              controller: controladorEmail,
               decoration: const InputDecoration(labelText: 'Email'),
               validator: (value) {
-                if (value.isEmpty) return 'Please enter your email';
+                if (value.isEmpty) return 'Por favor introduzca su email';
                 return null;
               },
             ),
             TextFormField(
-              controller: _passwordController,
+              controller: controladorPasswd,
               decoration: const InputDecoration(labelText: 'Password'),
               validator: (value) {
-                if (value.isEmpty) return 'Please enter your password';
+                if (value.isEmpty) return 'Por favor introduzca su password';
                 return null;
               },
             ),
             RaisedButton(
-              onPressed: logueando ? null : () async {
-                if (_formKey.currentState.validate()) _signInWithEmailAndPassword();
+              onPressed: accediendo ? null : () async {
+                if (keyFormulario.currentState.validate()) loguearseConEmailYPassword();
               },
-              child: const Text('Login'),
+              child: const Text('Acceder'),
             ),
             GestureDetector(
-              onTap: () => navigateToPage(context, RegisterPage()),
-              child: Text("Don't have an account, register"),
+              onTap: () => navegarHacia(context, RegisterPage()),
+              child: Text("No tienes una cuenta? Regístrate!"),
             ),
-            _buildErrorMessage()
+            construirMensajeDeError()
           ],
         ),
       ),
     );
   }
 
-  _signInWithEmailAndPassword() async {
+  loguearseConEmailYPassword() async {
     setState(() {
-      logueando = true;
+      accediendo = true;
     });
 
     try {
-      final user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
+      final usuario = (await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: controladorEmail.text,
+        password: controladorPasswd.text,
       )).user;
 
-      if (user != null) navigateToPage(context, HomePage());
+      if (usuario != null) navegarHacia(context, PaginaHogar());
     } catch(e) {
       setState(() {
-        errorMessage = e.message;
-        logueando = false;
+        mensajeError = e.message;
+        accediendo = false;
       });
     }
   }
 
-  _buildErrorMessage() {
-    if (errorMessage.length > 0 && errorMessage != null)
+  construirMensajeDeError() {
+    if (mensajeError.length > 0 && mensajeError != null)
       return Text(
-        errorMessage,
+        mensajeError,
         style: TextStyle(
           color: Colors.red,
         ),

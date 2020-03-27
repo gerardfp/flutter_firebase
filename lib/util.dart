@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void navigateToPage(context, page) {
+void navegarHacia(context, page) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(builder: (_) => page),
   );
