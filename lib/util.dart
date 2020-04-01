@@ -5,3 +5,7 @@ void navegarHacia(context, page) {
     MaterialPageRoute<void>(builder: (_) => page),
   );
 }
+
+void navegarAtras(context) {
+  Navigator.of(context).pop();
+}

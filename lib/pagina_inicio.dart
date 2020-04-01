@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'util.dart';
 
-import 'home_page.dart';
-import 'login_page.dart';
+import 'pagina_hogar.dart';
+import 'pagina_login.dart';
 
 
 class PaginaInicio extends StatefulWidget {
@@ -17,17 +17,10 @@ class _PaginaInicioState extends State<PaginaInicio> {
   @override
   void initState() {
     super.initState();
-    comprobarLogin();
+    _comprobarLogin();
   }
 
-  @override
-  build(context) {
-    return Scaffold(
-      body: CircularProgressIndicator(),
-    );
-  }
-
-  comprobarLogin() async {
+  _comprobarLogin() async {
     var usuario = await FirebaseAuth.instance.currentUser();
 
     if(usuario != null){
@@ -35,5 +28,12 @@ class _PaginaInicioState extends State<PaginaInicio> {
     } else {
       navegarHacia(context, PaginaAcceso());
     }
+  }
+
+  @override
+  build(context) {
+    return Scaffold(
+      body: const CircularProgressIndicator(),
+    );
   }
 }

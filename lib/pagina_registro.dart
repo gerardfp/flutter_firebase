@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'util.dart';
 
-import 'home_page.dart';
+import 'pagina_hogar.dart';
 
 
 class RegisterPage extends StatefulWidget {
@@ -12,35 +12,46 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final keyFormulario = GlobalKey<FormState>();
-  final controladorEmail = TextEditingController();
-  final controladorPasswd = TextEditingController();
+  final _keyFormulario = GlobalKey<FormState>();
+  final _controladorEmail = TextEditingController();
+  final _controladorPasswd = TextEditingController();
+
+  _registrarConEmailYPasswd() async {
+    final usuario = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: _controladorEmail.text,
+      password: _controladorPasswd.text,
+    )).user;
+
+    if (usuario != null) navegarHacia(context, PaginaHogar());
+  }
 
   @override
   build(context) {
     return Scaffold(
       body: Form(
-        key: keyFormulario,
+        key: _keyFormulario,
         child: ListView(
           children: [
-            Text("REGISTRO"),
+            const Text("REGISTRO"),
             TextFormField(
-              controller: controladorEmail,
+              controller: _controladorEmail,
               decoration: const InputDecoration(labelText: 'Email'),
               validator: (value) {
                 if (value.isEmpty) return 'Por favor introduzca su email';
+                return null;
               },
             ),
             TextFormField(
-              controller: controladorPasswd,
+              controller: _controladorPasswd,
               decoration: const InputDecoration(labelText: 'Password'),
               validator: (value) {
                 if (value.isEmpty) return 'Por favor introduzca su password';
+                return null;
               },
             ),
             RaisedButton(
               onPressed: () async {
-                if (keyFormulario.currentState.validate()) registrar();
+                if (_keyFormulario.currentState.validate()) _registrarConEmailYPasswd();
               },
               child: const Text('Registrarse'),
             ),
@@ -48,14 +59,5 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
-  }
-
-  registrar() async {
-    final usuario = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: controladorEmail.text,
-      password: controladorPasswd.text,
-    )).user;
-
-    if (usuario != null) navegarHacia(context, PaginaHogar());
   }
 }

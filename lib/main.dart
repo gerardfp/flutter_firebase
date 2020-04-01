@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'start_page.dart';
+import 'pagina_inicio.dart';
 
 
 main() => runApp(MiApp());
