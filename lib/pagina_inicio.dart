@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'util.dart';
 
 import 'pagina_hogar.dart';
-import 'pagina_login.dart';
+import 'pagina_acceso.dart';
 
 
 class PaginaInicio extends StatefulWidget {

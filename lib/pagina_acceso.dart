@@ -73,7 +73,7 @@ class _PaginaAccesoState extends State<PaginaAcceso> {
               onTap: () => navegarHacia(context, RegisterPage()),
               child: const Text("No tienes una cuenta? Regístrate!"),
             ),
-            buildMensajeDeError()
+            _buildMensajeDeError()
           ],
         ),
       ),
@@ -82,7 +82,7 @@ class _PaginaAccesoState extends State<PaginaAcceso> {
 
 
 
-  buildMensajeDeError() {
+  _buildMensajeDeError() {
     if (_mensajeError.length > 0 && _mensajeError != null)
       return Text(
         _mensajeError,
